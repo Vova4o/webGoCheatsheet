@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"html/template"
 	"net/http"
 )
@@ -33,6 +34,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
+	note = []Article{}
 	for res.Next() {
 		var post Article
 		err = res.Scan(&post.Id, &post.Title, &post.Anons)
@@ -75,11 +77,24 @@ func save_article(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
+func show_post(w http.ResponseWriter, r *http.Request) {
+	// for the link we handle the string
+	vars := mux.Vars(r)
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "ID: %v\n", vars["post_id"])
+}
+
 func handleFunc() {
+	rtr := mux.NewRouter()
+
+	rtr.HandleFunc("/", index).Methods("GET")
+	rtr.HandleFunc("/create", create).Methods("GET")
+	rtr.HandleFunc("/save_article", save_article).Methods("POST")
+	rtr.HandleFunc("/post/{post_id:[0-9]+}", show_post).Methods("GET")
+
+	http.Handle("/", rtr)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
-	http.HandleFunc("/", index)
-	http.HandleFunc("/create", create)
-	http.HandleFunc("/save_article", save_article)
+
 	http.ListenAndServe(":8080", nil)
 }
 
