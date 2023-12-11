@@ -1,7 +1,9 @@
 {{ define "header" }}
 <!DOCTYPE html>
-<html lang="en" class="height: -webkit-fill-available;">
+
+<html lang="en" class="h-100" data-bs-theme="dark">
 <head>
+    <script src="/docs/5.3/assets/js/color-modes.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -14,12 +16,12 @@
 <body class="d-flex text-center text-bg-dark height: -webkit-fill-available;">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="mb-auto">
-        <div>
-            <h3 class="float-md-start mb-0">CheatSheet</h3>
+        <div class="card-header">
+            <h5 class="float-md-start mb-0 ">Шпаргалка для Golang</h5>
             <nav class="nav nav-masthead justify-content-center float-md-end">
-                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/">Home</a>
-                <a class="nav-link fw-bold py-1 px-0" href="/contacts">Contacts</a>
-                <a class="nav-link fw-bold py-1 px-0" href="/create">Create note</a>
+                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/">Домой</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/contacts">Контакты</a>
+                <a class="nav-link fw-bold py-1 px-0" href="/create">Создать запись</a>
             </nav>
         </div>
     </header>

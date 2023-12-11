@@ -4,11 +4,20 @@
 
 
 
-    <main class="px-3">
+    <main class="px-3 h-100">
         <h1 class="cover-heading">Форма добавления шпаргалок</h1>
         <form action="/save_article" method="post">
-            <input type="text" name="title" id="title" placeholder="Put some text here" class="form-control"><br>
-            <textarea name="anons" id="anons" class="form-contorl" placeholder="Введите текст заметки"></textarea>
+            <div>
+            <input type="login" name="login" id="login" placeholder="Login for DB" class="form-control"><br>
+            <input type="password" name="password" id="password" placeholder="Passwort for DB" class="form-control"><br>
+            </div>
+            <input type="text" name="title" id="title" placeholder="Описание заметки" class="form-control"><br>
+            <div class="input-group">
+                <span class="input-group-text">With textarea</span>
+                <textarea name="anons" id="anons" class="form-control" aria-label="With textarea" placeholder="Введите текст заметки"></textarea>
+            </div>
+            <br>
+            {{/* <textarea name="anons" id="anons" class="input-group-text" placeholder="Введите текст заметки"></textarea> */}}
             <button class="btn btn-warning">Добавить</button>
         </form>
 
