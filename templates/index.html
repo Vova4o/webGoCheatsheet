@@ -4,8 +4,8 @@
 
 
 
-    <main class="px-3 h-100">
-        <h2>Главная страница</h2>
+    <main role="main" class="px-3 h-100 inner cover">
+        <h2 class="cover-heading">Главная страница</h2>
 {{/*        <p class="lead">Loren ipsum...</p>*/}}
 {{/*        <p class="lead">Lorem ipsum...</p>*/}}
 
@@ -16,8 +16,8 @@
                 <a href="/post/{{ .Id }}" class="btn btn-danger">Читать далее</a>
             </div>
         {{ else}}
-
-                {{end}}
+        <p class="lead">Статей нет!<p>
+        {{end}}
     </main>
 
     {{ template "footer"}}
