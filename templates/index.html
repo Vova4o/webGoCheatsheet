@@ -5,32 +5,27 @@
     <main role="main" class="px-3 h-100 inner cover">
     <div class="container">
         <h2 class="cover-heading">Главная страница</h2>
-        <div class="container scrollable border: 0px height: 300px">
-            <div class="row">
-                {{ range .Notes }}
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="tc bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5">
-                                <h6 class="card-title">{{ .Title }}</h6>
-                                {{/* <p class="card-text">{{ .Content }}</p> */}}
-                                <a href="/post/{{ .Id }}" class="btn btn-primary">Read More</a>
-                            </div>
-                        </div>
+        <div class="row border border-5 px-4 h-100" style="min-height: 300px">
+            {{ range .Notes }}
+                <div class="col-lg-4 align-self-center border border-2" style="min-height: 100px">
+                    <div class="card" style="min-height: inherit">
+                            <h6 class="card-title">{{ .Title }}</h6>
+                            {{/* <p class="card-text">{{ .Content }}</p> */}}
+                            <a href="/post/{{ .Id }}" class="btn btn-warning align-self-center sm">Read More</a>
                     </div>
-                {{ else }}
-                    <div class="col">
-                        <p>No articles found.</p>
-                    </div>
-                {{ end }}
-            </div>
+                </div>
+            {{ else }}
+                <div class="col">
+                    <p>No articles found.</p>
+                </div>
+            {{ end }}
         </div>
-
         <div>
             {{ if .HasPrevious }}
-                <a href="/?offset={{ .PreviousOffset }}" class="btn btn-primary">Previous</a>
+                <a href="/?offset={{ .PreviousOffset }}" class="btn btn-dark">Previous</a>
             {{ end }}
             {{ if .HasNext }}
-                <a href="/?offset={{ .NextOffset }}" class="btn btn-primary">Next</a>
+                <a href="/?offset={{ .NextOffset }}" class="btn btn-dark">Next</a>
             {{ end }}
         </div>
     </div>
