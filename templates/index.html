@@ -5,9 +5,9 @@
     <main role="main" class="px-3 h-100 inner cover">
     <div class="container">
         <h2 class="cover-heading">Главная страница</h2>
-        <div class="row border border-5 px-4 h-100" style="min-height: 300px">
+        <div class="row px-4 h-100" style="min-height: 300px">
             {{ range .Notes }}
-                <div class="col-lg-4 align-self-center border border-2" style="min-height: 100px">
+                <div class="col-lg-4 align-self-center" style="min-height: 100px">
                     <div class="card" style="min-height: inherit">
                             <h6 class="card-title">{{ .Title }}</h6>
                             {{/* <p class="card-text">{{ .Content }}</p> */}}
