@@ -2,24 +2,40 @@
 
     {{ template "header" }}
 
-
-
     <main role="main" class="px-3 h-100 inner cover">
+    <div class="container">
         <h2 class="cover-heading">Главная страница</h2>
-{{/*        <p class="lead">Loren ipsum...</p>*/}}
-{{/*        <p class="lead">Lorem ipsum...</p>*/}}
-
-        {{ range. }}
-            <div class="alert alert-dnager">
-            <h3>{{.Title}}</h3>
-{{/*                <p>{{.Anons}}</p>*/}}
-                <a href="/post/{{ .Id }}" class="btn btn-danger">Читать далее</a>
+        <div class="container scrollable border: 0px height: 300px">
+            <div class="row">
+                {{ range .Notes }}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="tc bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5">
+                                <h6 class="card-title">{{ .Title }}</h5>
+                                {{/* <p class="card-text">{{ .Content }}</p> */}}
+                                <a href="/post/{{ .Id }}" class="btn btn-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                {{ else }}
+                    <div class="col">
+                        <p>No articles found.</p>
+                    </div>
+                {{ end }}
             </div>
-        {{ else}}
-        <p class="lead">Статей нет!<p>
-        {{end}}
+        </div>
+
+        <div>
+            {{ if .HasPrevious }}
+                <button href="/?offset={{ .PreviousPage }}" class="btn btn-primary">Previous</button>
+            {{ end }}
+            {{ if .HasNext }}
+                <button href="/?offset={{ .NextPage }}" class="btn btn-primary">Next</button>
+            {{ end }}
+        </div>
+    </div>
     </main>
 
-    {{ template "footer"}}
+    {{ template "footer" }}
 
 {{ end }}

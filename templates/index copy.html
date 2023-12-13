@@ -1,0 +1,25 @@
+{{ define "index" }}
+
+    {{ template "header" }}
+
+
+
+    <main role="main" class="px-3 h-100 inner cover">
+        <h2 class="cover-heading">Главная страница</h2>
+{{/*        <p class="lead">Loren ipsum...</p>*/}}
+{{/*        <p class="lead">Lorem ipsum...</p>*/}}
+
+        {{ range. }}
+            <div class="alert alert-dnager">
+            <h3>{{.Title}}</h3>
+{{/*                <p>{{.Anons}}</p>*/}}
+                <a href="/post/{{ .Id }}" class="btn btn-danger">Читать далее</a>
+            </div>
+        {{ else}}
+        <p class="lead">Статей нет!<p>
+        {{end}}
+    </main>
+
+    {{ template "footer"}}
+
+{{ end }}

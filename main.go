@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -19,36 +20,84 @@ var note = []Article{}
 
 var showPost = Article{}
 
+// db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/golang")
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	defer db.Close()
+
+// 	var offset = 4
+
+// 	offsetText := strconv.Itoa(offset)
+// 	// select * from notes order by id limit 4 offset 10
+// 	limitNotes := fmt.Sprintf("SELECT * FROM `notes` ORDER BY `id` DESC LIMIT 4 OFFSET %s", offsetText)
+// 	res, err := db.Query(limitNotes)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
 func index(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/index.html", "templates/header.html", "templates/footer.html")
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
 	}
 
+	// Get the current offset from the URL query parameters
+	offsetStr := r.URL.Query().Get("offset")
+	offset, err := strconv.Atoi(offsetStr)
+	if err != nil {
+		offset = 0
+	}
+
+	// Calculate the previous and next offsets
+	previousOffset := offset - 6
+	nextOffset := offset + 6
+
+	// var note = []Article{}
+
+	// var showPost = Article{}
+
 	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/golang")
 	if err != nil {
 		panic(err)
 	}
-
 	defer db.Close()
 
-	res, err := db.Query("SELECT * FROM `notes`")
+	// var offset = 4
+	//  DESC LIMIT 6 OFFSET %s", offsetText
+	// offsetText := strconv.Itoa(offset)
+	// select * from notes order by id limit 4 offset 10
+	limitNotes := fmt.Sprintf("SELECT * FROM `notes` ORDER BY `id`")
+	res, err := db.Query(limitNotes)
 	if err != nil {
 		panic(err)
 	}
 
-	note = []Article{}
+	note := []Article{}
 	for res.Next() {
 		var post Article
 		err = res.Scan(&post.Id, &post.Title, &post.Anons)
 		if err != nil {
 			panic(err)
 		}
-		//fmt.Println(fmt.Sprintf("Post: %s with id: %d", post.Title, post.Id))
 		note = append(note, post)
 	}
 
-	t.ExecuteTemplate(w, "index", note)
+	data := struct {
+		Notes          []Article
+		HasPrevious    bool
+		HasNext        bool
+		PreviousOffset int
+		NextOffset     int
+	}{
+		Notes:          note,
+		HasPrevious:    offset > 0,
+		HasNext:        len(note) >= 6, // Assuming you display 10 items per page
+		PreviousOffset: previousOffset,
+		NextOffset:     nextOffset,
+	}
+
+	t.ExecuteTemplate(w, "index", data)
 }
 
 func create(w http.ResponseWriter, r *http.Request) {
@@ -63,8 +112,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 func save_article(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("title")
 	anons := r.FormValue("anons")
+	login := r.FormValue("login")
+	password := r.FormValue("password")
 
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/golang")
+	connectionSring := fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/golang", login, password)
+	db, err := sql.Open("mysql", connectionSring)
 	if err != nil {
 		panic(err)
 	}
@@ -122,7 +174,7 @@ func show_post(w http.ResponseWriter, r *http.Request) {
 func handleFunc() {
 	rtr := mux.NewRouter()
 
-	rtr.HandleFunc("/", index).Methods("GET")
+	rtr.HandleFunc("/", index).Methods("GET", "POST")
 	rtr.HandleFunc("/create", create).Methods("GET")
 	rtr.HandleFunc("/save_article", save_article).Methods("POST")
 	rtr.HandleFunc("/post/{post_id:[0-9]+}", show_post).Methods("GET")
