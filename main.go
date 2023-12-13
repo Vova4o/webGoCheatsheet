@@ -63,11 +63,11 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	// var offset = 4
+	//var offset = 4
 	//  DESC LIMIT 6 OFFSET %s", offsetText
-	// offsetText := strconv.Itoa(offset)
+	offsetText := strconv.Itoa(offset)
 	// select * from notes order by id limit 4 offset 10
-	limitNotes := fmt.Sprintf("SELECT * FROM `notes` ORDER BY `id`")
+	limitNotes := fmt.Sprintf("SELECT * FROM `notes` ORDER BY `id` DESC LIMIT 6 OFFSET %s", offsetText)
 	res, err := db.Query(limitNotes)
 	if err != nil {
 		panic(err)

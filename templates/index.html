@@ -11,7 +11,7 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="tc bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5">
-                                <h6 class="card-title">{{ .Title }}</h5>
+                                <h6 class="card-title">{{ .Title }}</h6>
                                 {{/* <p class="card-text">{{ .Content }}</p> */}}
                                 <a href="/post/{{ .Id }}" class="btn btn-primary">Read More</a>
                             </div>
@@ -27,10 +27,10 @@
 
         <div>
             {{ if .HasPrevious }}
-                <button href="/?offset={{ .PreviousPage }}" class="btn btn-primary">Previous</button>
+                <a href="/?offset={{ .PreviousOffset }}" class="btn btn-primary">Previous</a>
             {{ end }}
             {{ if .HasNext }}
-                <button href="/?offset={{ .NextPage }}" class="btn btn-primary">Next</button>
+                <a href="/?offset={{ .NextOffset }}" class="btn btn-primary">Next</a>
             {{ end }}
         </div>
     </div>
