@@ -67,7 +67,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	//  DESC LIMIT 6 OFFSET %s", offsetText
 	offsetText := strconv.Itoa(offset)
 	// select * from notes order by id limit 4 offset 10
-	limitNotes := fmt.Sprintf("SELECT * FROM `notes` ORDER BY `id` DESC LIMIT 6 OFFSET %s", offsetText)
+	limitNotes := fmt.Sprintf("SELECT * FROM `notes` ORDER BY `id` ASC LIMIT 6 OFFSET %s", offsetText)
 	res, err := db.Query(limitNotes)
 	if err != nil {
 		panic(err)
@@ -115,8 +115,8 @@ func save_article(w http.ResponseWriter, r *http.Request) {
 	login := r.FormValue("login")
 	password := r.FormValue("password")
 
-	connectionSring := fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/golang", login, password)
-	db, err := sql.Open("mysql", connectionSring)
+	//connectionSring := fmt.Sprintf("%s:%s@tcp(127.0.0.1:3306)/golang", login, password)
+	db, err := sql.Open("mysql", ""+login+":"+password+"@tcp(127.0.0.1:3306)/golang")
 	if err != nil {
 		panic(err)
 	}
